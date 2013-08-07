@@ -1,0 +1,42 @@
+<project name = "GTCarRental" basedir="." default="run">
+
+	<!-- declare variables -->
+	<target name="init">
+		<property name="src.dir"		value="src"/>
+		<property name="data.src"		value="src/Data"/>
+		<property name="screen.src"		value="src/Screens"/>
+		<property name="screen1.src"	value="src/Screens/EmployeeScreens"/>
+		<property name="screen2.src"	value="src/Screens/MemberScreens"/>
+		<property name="build.dir"		value="bin"/>
+		<property name="lib.dir"		value="lib"/>
+	</target>
+
+	<!-- make necessary folders  -->
+	<target name="prepare" depends="init">
+		<mkdir dir="${build.dir}"/>
+	</target>
+
+	<!-- compile -->
+	<target name="compile" depends="prepare">
+		<javac destdir="${build.dir}" includeantruntime="false">
+			<src path="${src.dir}"/>
+			<classpath>
+				<pathelement path="${build.dir}"/>
+				<pathelement path="${lib.dir}/mysql-connector-java-5.1.24-bin.jar"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="Program.jar" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="Main"/>
+				<attribute name="Class-Path" value="lib/mysql-connector-java-5.1.24-bin.jar" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<delete dir="${build.dir}"/>
+	</target>
+</project> 
